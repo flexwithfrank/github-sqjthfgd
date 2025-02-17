@@ -1,0 +1,5 @@
+You are creating an app that should mirror the UI and behaviors of X(Twitter).
+
+If creating new components make sure its a native experience.
+
+Always update Supabase data when adding new attributes.
