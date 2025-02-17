@@ -10,13 +10,28 @@ export default function OverallActivity() {
   const getDateRange = () => {
     const now = new Date();
     if (timeRange === 'day') {
-      return now.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+      return now.toLocaleDateString('en-US', {
+        month: 'short',
+        day: 'numeric',
+      });
     } else if (timeRange === 'week') {
       const start = new Date(now);
       start.setDate(now.getDate() - 7);
-      return `${start.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} - ${now.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}`;
+      return `${start.toLocaleDateString('en-US', {
+        month: 'short',
+        day: 'numeric',
+      })} - ${now.toLocaleDateString('en-US', {
+        month: 'short',
+        day: 'numeric',
+      })}`;
     } else {
-      return `${now.toLocaleDateString('en-US', { month: 'short' })} 1 - ${now.toLocaleDateString('en-US', { month: 'short' })} ${new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate()}`;
+      return `${now.toLocaleDateString('en-US', {
+        month: 'short',
+      })} 1 - ${now.toLocaleDateString('en-US', { month: 'short' })} ${new Date(
+        now.getFullYear(),
+        now.getMonth() + 1,
+        0
+      ).getDate()}`;
     }
   };
 
@@ -27,26 +42,50 @@ export default function OverallActivity() {
 
         <View style={styles.timeRangeContainer}>
           <TouchableOpacity
-            style={[styles.timeRangeButton, timeRange === 'day' && styles.activeTimeRange]}
+            style={[
+              styles.timeRangeButton,
+              timeRange === 'day' && styles.activeTimeRange,
+            ]}
             onPress={() => setTimeRange('day')}
           >
-            <Text style={[styles.timeRangeText, timeRange === 'day' && styles.activeTimeRangeText]}>
+            <Text
+              style={[
+                styles.timeRangeText,
+                timeRange === 'day' && styles.activeTimeRangeText,
+              ]}
+            >
               TODAY
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
-            style={[styles.timeRangeButton, timeRange === 'week' && styles.activeTimeRange]}
+            style={[
+              styles.timeRangeButton,
+              timeRange === 'week' && styles.activeTimeRange,
+            ]}
             onPress={() => setTimeRange('week')}
           >
-            <Text style={[styles.timeRangeText, timeRange === 'week' && styles.activeTimeRangeText]}>
+            <Text
+              style={[
+                styles.timeRangeText,
+                timeRange === 'week' && styles.activeTimeRangeText,
+              ]}
+            >
               WEEK
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
-            style={[styles.timeRangeButton, timeRange === 'month' && styles.activeTimeRange]}
+            style={[
+              styles.timeRangeButton,
+              timeRange === 'month' && styles.activeTimeRange,
+            ]}
             onPress={() => setTimeRange('month')}
           >
-            <Text style={[styles.timeRangeText, timeRange === 'month' && styles.activeTimeRangeText]}>
+            <Text
+              style={[
+                styles.timeRangeText,
+                timeRange === 'month' && styles.activeTimeRangeText,
+              ]}
+            >
               MONTH
             </Text>
           </TouchableOpacity>
@@ -57,14 +96,18 @@ export default function OverallActivity() {
         <View style={styles.statsContainer}>
           <View style={styles.circleContainer}>
             <View style={styles.circle}>
-              <Text style={styles.circleNumber}>3</Text>
+              <Text style={styles.circleNumber}>32</Text>
               <Text style={styles.circleLabel}>Classes</Text>
             </View>
           </View>
 
           <View style={styles.additionalStats}>
             <View style={styles.statItem}>
-              <MaterialCommunityIcons name="shoe-print" size={24} color="#666666" />
+              <MaterialCommunityIcons
+                name="shoe-print"
+                size={24}
+                color="#666666"
+              />
               <Text style={styles.statLabel}>Steps Taken</Text>
               <Text style={styles.statValue}>12,458</Text>
             </View>
@@ -123,6 +166,7 @@ const styles = StyleSheet.create({
   },
   activeTimeRangeText: {
     color: '#000000',
+    fontWeight: '800',
   },
   dateRange: {
     fontSize: 18,

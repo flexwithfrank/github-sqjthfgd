@@ -1,4 +1,10 @@
-import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  FlatList,
+  TouchableOpacity,
+} from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 const HISTORY_DATA = [
@@ -35,7 +41,7 @@ const HISTORY_DATA = [
 ];
 
 export default function ClassHistory() {
-  const renderItem = ({ item }) => (
+  const renderItem = ({ item }: { item: typeof HISTORY_DATA[0] }) => (
     <View style={styles.historyItem}>
       <Text style={styles.date}>{item.date}</Text>
       <View style={styles.classCard}>
@@ -53,7 +59,11 @@ export default function ClassHistory() {
         </View>
         <View style={styles.actions}>
           <TouchableOpacity style={styles.moreButton}>
-            <MaterialCommunityIcons name="dots-horizontal" size={24} color="#666666" />
+            <MaterialCommunityIcons
+              name="dots-horizontal"
+              size={24}
+              color="#666666"
+            />
           </TouchableOpacity>
           <TouchableOpacity style={styles.bookAgainButton}>
             <Text style={styles.bookAgainText}>Book Again</Text>
@@ -68,7 +78,7 @@ export default function ClassHistory() {
       <FlatList
         data={HISTORY_DATA}
         renderItem={renderItem}
-        keyExtractor={item => item.id}
+        keyExtractor={(item) => item.id}
         contentContainerStyle={styles.listContent}
       />
     </View>

@@ -103,9 +103,9 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   greeting: {
-    fontSize: 16,
+    fontSize: 20,
     color: '#ffffff',
-    fontWeight: '500',
+    fontWeight: '600',
   },
 
  // Commented out logo text

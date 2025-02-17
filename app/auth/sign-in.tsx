@@ -1,5 +1,12 @@
 import { useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, TextInput } from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  ScrollView,
+  TextInput,
+  TouchableOpacity,
+} from 'react-native';
 import { Link, router } from 'expo-router';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { supabase } from '../../lib/supabase';
@@ -97,16 +104,15 @@ export default function SignInScreen() {
     >
       <View style={styles.container}>
         <View style={styles.header}>
-          <Link href="/" style={styles.backButton}>
-            <Ionicons
-              style={styles.icon}
-              name="arrow-back"
-              size={20}
-              color="#b0fb50"
-            />
-            <Text style={styles.backText}>Back</Text>
-          </Link>
-          <Text style={styles.title}>Welcome back</Text>
+          <View style={styles.backButton}>
+            <Link href="/" asChild>
+              <TouchableOpacity style={styles.linkContent}>
+                <Ionicons name="arrow-back" size={20} color="#b0fb50" />
+                <Text style={styles.backText}>Back</Text>
+              </TouchableOpacity>
+            </Link>
+          </View>
+          <Text style={styles.title}>Welcome Back!</Text>
         </View>
 
         <View style={styles.form}>
@@ -199,14 +205,18 @@ const styles = StyleSheet.create({
   backButton: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center',
-    marginBottom: 24,
-    marginTop: 16,
+    marginBottom: 16,
   },
-  backText: {
-    color: '#b0fb50',
-    fontSize: 16,
+  linkContent: {
+    flexDirection: 'row',
+    alignItems: 'center', // Aligns icon and text vertically
+    gap: 8, // Adds spacing between icon and text (or use marginLeft)
+  },
 
+  backText: {
+    fontSize: 16,
+    color: '#b0fb50',
+    fontWeight: '600',
   },
   icon: {
     marginTop: 18,

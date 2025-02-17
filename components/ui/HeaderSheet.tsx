@@ -131,7 +131,7 @@ export function HeaderSheet({ visible, onClose }: HeaderSheetProps) {
               >
                 <MaterialCommunityIcons 
                   name={item.icon as any}
-                  size={24}
+                  size={32}
                   color={item.color || '#ffffff'}
                 />
                 <Text style={[
@@ -162,7 +162,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#111',
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
-    minHeight: '55%',
+    minHeight: '65%',
     maxHeight: '90%',
   },
   header: {
@@ -172,10 +172,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingVertical: 16,
     borderBottomWidth: 1,
-    borderBottomColor: '#333333',
+    borderBottomColor: '#222222',
   },
   title: {
-    fontSize: 18,
+    fontSize: 20,
     fontWeight: '600',
     color: '#ffffff',
   },
@@ -189,12 +189,13 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     padding: 16,
-    borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: '#333333',
+    // borderBottomWidth: StyleSheet.hairlineWidth,
+    // borderBottomColor: '#333333',
   },
   menuItemText: {
-    fontSize: 16,
+    fontSize: 20,
     color: '#ffffff',
     marginLeft: 12,
+    fontWeight: '600',
   },
 });
