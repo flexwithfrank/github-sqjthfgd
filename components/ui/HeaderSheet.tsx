@@ -131,7 +131,7 @@ export function HeaderSheet({ visible, onClose }: HeaderSheetProps) {
               >
                 <MaterialCommunityIcons 
                   name={item.icon as any}
-                  size={32}
+                  size={28}
                   color={item.color || '#ffffff'}
                 />
                 <Text style={[
