@@ -1,5 +1,11 @@
 import { useState } from 'react';
-import { View, Text, StyleSheet, ScrollView } from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  ScrollView,
+  TouchableOpacity,
+} from 'react-native';
 import { Link, router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { supabase } from '../../lib/supabase';
@@ -47,7 +53,10 @@ export default function SignUpScreen() {
 
     try {
       // 1. Sign up the user
-      const { error: signUpError, data: { user } } = await supabase.auth.signUp({
+      const {
+        error: signUpError,
+        data: { user },
+      } = await supabase.auth.signUp({
         email: form.email,
         password: form.password,
         options: {
@@ -62,7 +71,8 @@ export default function SignUpScreen() {
         if (signUpError.message.includes('User already registered')) {
           setErrors({
             email: 'This email is already registered',
-            submit: 'An account with this email already exists. Please sign in instead.'
+            submit:
+              'An account with this email already exists. Please sign in instead.',
           });
           return;
         }
@@ -72,39 +82,45 @@ export default function SignUpScreen() {
       if (!user) throw new Error('No user returned from sign up');
 
       // 2. Generate a unique username
-      const baseUsername = form.email.split('@')[0].toLowerCase().replace(/[^a-z0-9]/g, '');
+      const baseUsername = form.email
+        .split('@')[0]
+        .toLowerCase()
+        .replace(/[^a-z0-9]/g, '');
       const { count } = await supabase
         .from('profiles')
         .select('*', { count: 'exact', head: true })
         .ilike('username', `${baseUsername}%`);
 
       const username = count ? `${baseUsername}${count + 1}` : baseUsername;
-      
+
       // 3. Create profile with retry logic
       const maxRetries = 3;
       let profileCreated = false;
       let retryCount = 0;
 
       while (!profileCreated && retryCount < maxRetries) {
-        const { error: profileError } = await supabase
-          .from('profiles')
-          .insert({
-            id: user.id,
-            username,
-            email: form.email,
-            display_name: `${form.firstName} ${form.lastName}`.trim(),
-          });
+        const { error: profileError } = await supabase.from('profiles').insert({
+          id: user.id,
+          username,
+          email: form.email,
+          display_name: `${form.firstName} ${form.lastName}`.trim(),
+        });
 
         if (!profileError) {
           profileCreated = true;
         } else {
-          console.error(`Profile creation attempt ${retryCount + 1} failed:`, profileError);
+          console.error(
+            `Profile creation attempt ${retryCount + 1} failed:`,
+            profileError
+          );
           retryCount++;
           if (retryCount === maxRetries) {
-            throw new Error('Failed to create user profile after multiple attempts');
+            throw new Error(
+              'Failed to create user profile after multiple attempts'
+            );
           }
           // Wait before retrying
-          await new Promise(resolve => setTimeout(resolve, 1000));
+          await new Promise((resolve) => setTimeout(resolve, 1000));
         }
       }
 
@@ -122,8 +138,10 @@ export default function SignUpScreen() {
       router.replace('/(tabs)');
     } catch (error: any) {
       console.error('Error signing up:', error);
-      setErrors({ 
-        submit: error.message || 'An error occurred during sign up. Please try again.' 
+      setErrors({
+        submit:
+          error.message ||
+          'An error occurred during sign up. Please try again.',
       });
 
       // If profile creation fails, attempt to clean up the auth user
@@ -138,20 +156,24 @@ export default function SignUpScreen() {
   };
 
   return (
-    <ScrollView 
+    <ScrollView
       contentContainerStyle={[
         styles.scrollContainer,
-        { paddingBottom: insets.bottom }
+        { paddingBottom: insets.bottom },
       ]}
       keyboardShouldPersistTaps="handled"
     >
       <View style={styles.container}>
         <View style={styles.header}>
-          <Link href="/" style={styles.backButton}>
-            <Ionicons name="arrow-back" size={24} color="#b0fb50" />
-            <Text style={styles.backText}>Back</Text>
-          </Link>
-          <Text style={styles.title}>Sign up</Text>
+          <View style={styles.backButton}>
+            <Link href="/" asChild> 
+              <TouchableOpacity style={styles.linkContent}>
+                <Ionicons name="arrow-back" size={20} color="#b0fb50" />
+                <Text style={styles.backText}>Back</Text>
+              </TouchableOpacity>
+            </Link>
+          </View>
+          <Text style={styles.title}>Get started with your account.</Text>
         </View>
 
         <View style={styles.form}>
@@ -199,7 +221,7 @@ export default function SignUpScreen() {
             <View style={styles.errorContainer}>
               <Text style={styles.submitError}>{errors.submit}</Text>
               {errors.email?.includes('already registered') && (
-                <Button 
+                <Button
                   variant="secondary"
                   onPress={() => router.replace('/auth/sign-in')}
                   style={styles.signInButton}
@@ -214,8 +236,8 @@ export default function SignUpScreen() {
             By selecting "Agree and continue" I agree to{' '}
             <Text style={styles.link} onPress={() => {}}>
               Terms of Service
-            </Text>
-            {' '}and acknowledge the{' '}
+            </Text>{' '}
+            and acknowledge the{' '}
             <Text style={styles.link} onPress={() => {}}>
               Privacy Policy
             </Text>
@@ -243,7 +265,7 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-     marginTop: 32,
+    marginTop: 32,
   },
   header: {
     marginBottom: 32,
@@ -253,10 +275,16 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 16,
   },
+  linkContent: {
+    flexDirection: 'row',
+    alignItems: 'center', // Aligns icon and text vertically
+    gap: 8, // Adds spacing between icon and text (or use marginLeft)
+  },
+
   backText: {
-    color: '#b0fb50',
     fontSize: 16,
-    marginLeft: 8,
+    color: '#b0fb50',
+    fontWeight: '600',
   },
   title: {
     fontSize: 32,
@@ -296,6 +324,7 @@ const styles = StyleSheet.create({
   footerText: {
     color: '#666666',
     fontSize: 14,
+    marginTop: 16,
   },
   footerLink: {
     marginTop: 8,
